@@ -88,7 +88,7 @@ describe('Get /apps', () => {
   });
  it('should filter by genre', () => {
   let values = ['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcat', 'Card'];
-  let titles = playStore.map(title => title.App);
+  let titles = playStore.filter(title => title.App);
   console.log('the titles are : ', titles);
     return supertest(app)
       .get('/apps')
@@ -96,8 +96,9 @@ describe('Get /apps', () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
+        console.log('this is the response: ', res.body);
         expect(res.body).to.be.an('array')
-        expect(res.body.titles).to.only.include('Helix Jump', 'Kick the Buddy', 'Temple Run 2', 'Zombie Hunter King', 'slither.io')
+        expect(res.body).to.eql(titles)
       });
   });
 });
