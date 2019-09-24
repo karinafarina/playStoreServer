@@ -14,10 +14,13 @@ app.get('/apps', (req, res) => {
       }
     }
     if(sort) {
-      playStore.sort((a, b) => (a.Rating > b.Rating) ? 1 : ((b.Rating > a.Rating) ? -1 : 0));
-      playStore.sort((a, b) => (a.App > b.App) ? 1 : ((b.App > a.App) ? -1 : 0));
+      if(sort === "rating") {
+        playStore.sort((a, b) => (a.Rating > b.Rating) ? 1 : ((b.Rating > a.Rating) ? -1 : 0));
+      } else if(sort === "app") {
+        playStore.sort((a, b) => (a.App > b.App) ? 1 : ((b.App > a.App) ? -1 : 0));
+      } 
     }
-
+      
     if(genres) {
       let values = ['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcat', 'Card'];
       if(!values.includes(genres)) {
@@ -35,14 +38,6 @@ app.get('/apps', (req, res) => {
       //inside filter loop
     }
     return res.json(playStore);
-    
-   
-  //sort= rating or app, otherwise error, if no value, no sort
-  //genres=If genres, values = Action, Puzzle, Strategy, Casual, Arcat, Card
-  //genres: otherwise error. Filter list by value given
 });
 
-
-app.listen(8000, () => {
-  console.log('Server started on http://localhost:8000');
-});
+module.exports = app;
